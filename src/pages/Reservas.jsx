@@ -8,15 +8,21 @@ export default function Reservas() {
   const [params, setParams] = useState({ location: '', guests: '2', checkin: '', checkout: '' });
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const location = urlParams.get('location') || '';
-    const guests = urlParams.get('guests') || '2';
-    const checkin = urlParams.get('checkin') || '';
-    const checkout = urlParams.get('checkout') || '';
-    const searchParams = { location, guests, checkin, checkout };
-    setParams(searchParams);
-    fetchProperties(searchParams).then(setProperties);
-  }, []);
+  const urlParams = new URLSearchParams(window.location.search);
+  const location = urlParams.get('location') || '';
+  const guests = urlParams.get('guests') || '2';
+  const checkin = urlParams.get('checkin') || '';
+  const checkout = urlParams.get('checkout') || '';
+  const searchParams = { location, guests, checkin, checkout };
+  setParams(searchParams);
+
+  // ⬇️ Adiciona este log para ver o que a API responde
+  fetchProperties(searchParams).then((res) => {
+    console.log("🔍 Dados recebidos da API Beds24:", res);
+    setProperties(res);
+  });
+}, []);
+
 
   return (
     <div className='min-h-screen bg-gray-100 p-6'>

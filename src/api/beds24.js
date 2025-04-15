@@ -1,12 +1,30 @@
-export async function fetchProperties({ location, guests, checkin, checkout }) {
+export default async function handler(req, res) {
+  const { location, guests, checkin, checkout } = req.query;
+
   try {
-    const res = await fetch(`/api/reservas?location=${location}&guests=${guests}&checkin=${checkin}&checkout=${checkout}`);
-    const text = await res.text();
-    console.log('📦 RESPOSTA API RAW:', text);
-    const json = JSON.parse(text);
-    return json.properties || [];
+    const response = await fetch("https://api.beds24.com/json/getProperties", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        authentication: {
+          apiKey: process.env.VITE_BEDS24_API_KEY,
+        },
+        parameters: {
+          location,
+          guests,
+          checkin,
+          checkout,
+          includeRooms: true,
+        },
+      }),
+    });
+
+    const data = await response.json();
+    res.status(200).json(data);
   } catch (err) {
-    console.error('❌ Erro ao conectar à API Beds24:', err);
-    return [];
+    console.error("❌ Erro na API route:", err);
+    res.status(500).json({ error: "Erro ao buscar dados da Beds24" });
   }
 }

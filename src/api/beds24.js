@@ -1,23 +1,30 @@
-export async function fetchProperties(params) {
-  try {
-    const query = new URLSearchParams(params).toString();
-    const res = await fetch(`/api/reservas?${query}`, {
-      headers: {
-        'Cache-Control': 'no-cache',
-        'Accept': 'application/json',
-      },
-    });
+export async function fetchProperties({ location, guests, checkin, checkout }) {
+  console.log("🔍 Simulating API fetch with params:", { location, guests, checkin, checkout });
 
-    const text = await res.text();
-
-    console.log("🧾 Conteúdo bruto da resposta:", text);
-
-    const json = JSON.parse(text);
-    console.log("🏨 Propriedades recebidas:", json);
-
-    return json?.properties || [];
-  } catch (error) {
-    console.error("❌ Erro ao obter propriedades:", error);
-    return [];
-  }
+  return [
+    {
+      propertyId: 1,
+      name: "Casa da Madeira",
+      location: "Madeira",
+      image: "https://source.unsplash.com/400x300/?house,sea",
+      price: 180,
+      guests: 2,
+    },
+    {
+      propertyId: 2,
+      name: "Villa Funchal",
+      location: "Madeira",
+      image: "https://source.unsplash.com/400x300/?villa,luxury",
+      price: 250,
+      guests: 4,
+    },
+    {
+      propertyId: 3,
+      name: "Sunset Lodge",
+      location: "Madeira",
+      image: "https://source.unsplash.com/400x300/?lodge,view",
+      price: 150,
+      guests: 2,
+    }
+  ];
 }

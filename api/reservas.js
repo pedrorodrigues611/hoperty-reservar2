@@ -1,21 +1,38 @@
-export default async function handler(req, res) {
-  const { location, guests, checkin, checkout } = req.query;
+import { useEffect, useState } from 'react';
+import { fetchProperties } from '../api/beds24';
+import SearchBar from '../components/SearchBar';
+import PropertyCard from '../components/PropertyCard';
 
-  const response = await fetch("https://api.beds24.com/json/getProperties", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      authentication: {
-        apiKey: process.env.VITE_BEDS24_API_KEY,
-      },
-      parameters: {
-        includeRooms: true
-      },
-    }),
-  });
+export default function Reservas() {
+  const [properties, setProperties] = useState([]);
+  const [params, setParams] = useState({ location: '', guests: '2', checkin: '', checkout: '' });
 
-  const data = await response.json();
-  res.status(200).json(data);
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const location = urlParams.get('location') || '';
+    const guests = urlParams.get('guests') || '2';
+    const checkin = urlParams.get('checkin') || '';
+    const checkout = urlParams.get('checkout') || '';
+    const searchParams = { location, guests, checkin, checkout };
+    setParams(searchParams);
+
+    fetchProperties(searchParams).then((result) => {
+      console.log("🏡 Alojamentos recebidos:", result);
+      setProperties(result);
+    });
+  }, []);
+
+  return (
+    <div className='min-h-screen bg-gray-100 p-6'>
+      <div className='max-w-7xl mx-auto'>
+        <SearchBar initialParams={params} />
+        <h2 className='text-3xl font-bold mt-10 mb-6'>Resultados</h2>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+          {properties.map((p) => (
+            <PropertyCard key={p.propertyId} data={p} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }

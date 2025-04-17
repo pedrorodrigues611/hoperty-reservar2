@@ -1,9 +1,8 @@
-function App() {
+export default function App() {
   return (
-    <div>
-      <h1 style={{ color: 'blue' }}>TESTE DE CONEXÃO ✅</h1>
+    <div style={{ padding: '2rem' }}>
+      <h1 style={{ color: 'blue' }}>Teste de conexão com React ⚡</h1>
+      <p>Se estás a ver isto, está tudo a funcionar!</p>
     </div>
   );
 }
-
-export default App;

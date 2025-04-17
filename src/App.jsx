@@ -1,5 +1,9 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Reservas from './pages/Reservas';
-export default function App() {
-  return <BrowserRouter><Routes><Route path='/reservas' element={<Reservas />} /></Routes></BrowserRouter>;
+function App() {
+  return (
+    <div>
+      <h1 style={{ color: 'blue' }}>TESTE DE CONEXÃO ✅</h1>
+    </div>
+  );
 }
+
+export default App;

@@ -7,7 +7,9 @@ export default async function handler(req, res) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      authentication: { apiKey: process.env.VITE_BEDS24_API_KEY },
+      authentication: {
+        apiKey: process.env.VITE_BEDS24_API_KEY,
+      },
       parameters: {
         includeRooms: true
       },

@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import PropertyCard from '../components/PropertyCard';
 
 export default function Reservas() {
-  const [properties, setProperties] = useState([])
+  const [properties, setProperties] = useState([]);
   const [params, setParams] = useState({ location: '', guests: '2', checkin: '', checkout: '' });
 
   useEffect(() => {
